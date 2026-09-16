@@ -43,9 +43,10 @@ RUN mkdir -p /config \
  && chown steam:steam /config
 
 COPY init.sh /
+COPY osc-entrypoint.sh /
 COPY --chown=steam:steam healthcheck.sh run.sh /home/steam/
 
-RUN chmod +x /init.sh /home/steam/healthcheck.sh /home/steam/run.sh
+RUN chmod +x /init.sh /osc-entrypoint.sh /home/steam/healthcheck.sh /home/steam/run.sh
 
 HEALTHCHECK --timeout=30s --start-period=300s CMD bash /home/steam/healthcheck.sh
 
@@ -61,4 +62,4 @@ LABEL version=$VERSION
 STOPSIGNAL SIGINT
 EXPOSE 7777/udp 7777/tcp 8888/tcp
 
-ENTRYPOINT [ "/init.sh" ]
+ENTRYPOINT [ "/osc-entrypoint.sh" ]
